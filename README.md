@@ -35,7 +35,7 @@ module.exports = {
 };
 ```
 
-Create a ```.babelrc``` config file...
+Create a babel config file...
 - ```atom .babelrc```
 
 ...and tell it to use the ```babel-preset-env``` preset:
