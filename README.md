@@ -35,6 +35,17 @@ module.exports = {
 };
 ```
 
+Create a ```.babelrc``` config file...
+- ```atom .babelrc```
+
+...and tell it to use the ```babel-preset-env``` preset:
+
+```js
+{
+  "presets": ["env"]
+}
+```
+
 - In ```package.json```, create a build script that calls webpack:
 
 ```js
