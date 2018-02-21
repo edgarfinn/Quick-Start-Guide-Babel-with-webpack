@@ -59,4 +59,5 @@ Start coding in ```index.js```. To set an alternative root file for your depende
 ## Jest additional setup:
 
 Install jest, babel-jest, and regenerator-runtime
-```npm install jest babel-jest regenerator-runtime --save-dev```
+
+- ```npm install jest babel-jest regenerator-runtime --save-dev```
