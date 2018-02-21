@@ -34,3 +34,11 @@ module.exports = {
   }
 };
 ```
+
+- In ```package.json```, create a build script that calls webpack:
+
+```js
+"scripts": {
+    "build": "webpack"
+  }
+```
