@@ -55,3 +55,8 @@ Create a babel config file...
 ```
 
 Start coding in ```index.js```. To set an alternative root file for your dependency tree, update the ```entry``` key in ```webpack.config.js``` (and the appropriate output filename / path)
+
+## Jest additional setup:
+
+Install jest, babel-jest, and regenerator-runtime
+```npm install jest babel-jest regenerator-runtime --save-dev```
