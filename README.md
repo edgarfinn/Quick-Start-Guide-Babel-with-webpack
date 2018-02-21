@@ -1,2 +1,36 @@
 # Quick-Start-Guide-Babel-with-webpack
 A reference guide for setting up Babel compiler with webpack
+
+Initialise your project:
+- ```npm init```
+
+Install webpack, babel-core, babel-loader, and babel-preset-env as dev dependencies:
+- ```npm install webpack babel-core babel-loader babel-preset-env --save-dev```
+
+Create a config file for webpack...
+- ```atom webpack.config.js```
+
+...then:
+  - Define your applications entry point (from which the dependency tree will be determined)
+  - Define output (where to save outputted files)
+  - Tell webpack to use babel-loader for all JS files (except node_modules)
+```js
+const path = require('path');
+
+module.exports = {
+  entry: './index.js',
+  output: {
+     path: path.resolve(__dirname, 'dist'),
+     filename: 'index.bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader"
+      }
+    ]
+  }
+};
+```
