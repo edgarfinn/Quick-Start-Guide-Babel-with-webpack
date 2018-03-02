@@ -98,7 +98,7 @@ In ```package.json```, create a "build" script that calls webpack, and a "start"
 ```
 Install React and ReactDOM:
 
-- ```npm install react react-dom --save-dev```
+- ```npm install react react-dom --save```
 
 Start writing React components:
 
