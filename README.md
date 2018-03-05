@@ -2,11 +2,39 @@
 A reference guide for setting up Babel compiler with webpack
 
 Initialise your project:
-- ```npm init```
+- ```npm init -y```
 
-Install webpack, html-webpack-plugin, webpack-dev-server, babel-core, babel-loader, babel-preset-env and babel-preset-react as dev dependencies:
+Install express as dependency:
+- ```npm i express -S```
 
-- ```npm install webpack html-webpack-plugin webpack-dev-server babel-core babel-loader babel-preset-env babel-preset-react --save-dev```
+Create a server file:
+
+```atom index.js```
+
+```js
+
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+app.use(express.static(path.join(__dirname, '/dist/')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/dist/'));
+});
+
+const port = process.env.PORT || 5000;
+
+app.listen(port);
+
+console.log(`App listening on ${port}`);
+
+```
+
+Install webpack with the below listed dev dependencies:
+
+- ```npm install webpack@3.11.0 html-webpack-plugin webpack-dev-server@2.11.1 clean-webpack-plugin webpack-merge babel-core babel-loader babel-preset-env babel-preset-react uglifyjs-webpack-plugin -D```
 
 Create an index.html file for your browser to render:
 
@@ -33,8 +61,8 @@ Create an index.html file for your browser to render:
 
 ```
 
-Create a config file for webpack...
-- ```atom webpack.config.js```
+Create a 'common' webpack config file for both dev and prod environments to share...
+- ```atom webpack.common.js```
 
 ...then:
   - Define your applications entry point (from which the dependency tree will be determined)
@@ -43,7 +71,9 @@ Create a config file for webpack...
   - Tell webpack (using ```html-webpack-plugin```) to bundle an index.html file together with your bundled JS and JSX to the same output destination (so html and JS are still able to collaborate)
 
 ```js
+
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -67,6 +97,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
@@ -74,6 +105,38 @@ module.exports = {
     })
   ]
 };
+
+```
+
+Create a production-specific config file:
+
+```atom webpack.prod.js```
+
+...and configure it to clean out the 'dist' folder and minify your code on every build:
+
+```js
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const common = require('./webpack.common.js');
+
+module.exports = merge(common, {
+  plugins: [
+    new UglifyJSPlugin({
+      sourceMap: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    })
+  ]
+});
+```
+
+Create a dev-specific webpack config file for running a dev server, with dev tools:
+
+```atom webpack.dev.js```
+
+```js
 
 ```
 
@@ -92,13 +155,15 @@ In ```package.json```, create a "build" script that calls webpack, and a "start"
 
 ```js
 "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+  "start": "node index.js",
+  "dev": "webpack-dev-server --config webpack.common.js",
+  "build": "webpack --config webpack.prod.js",
+  "postinstall": "webpack --config webpack.prod.js",
 }
 ```
 Install React and ReactDOM:
 
-- ```npm install react react-dom --save```
+- ```npm install react react-dom -S```
 
 Start writing React components:
 
@@ -136,6 +201,26 @@ ReactDOM.render(
 )
 
 ```
+
+Create a ```Procfile``` for heroku:
+
+```atom Procfile```
+
+and tell it what to run after in order to launch your app:
+
+```js
+web: node index.js
+```
+
+Gitigore your ```node_modules```:
+
+```atom .gitignore```
+
+```js
+node_modules/
+```
+
+
 
 To preview your code with webpack-dev-server:
 
