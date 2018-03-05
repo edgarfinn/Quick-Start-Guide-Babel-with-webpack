@@ -9,7 +9,7 @@ Install express as dependency:
 
 Create a server file:
 
-```atom index.js```
+- ```atom index.js```
 
 ```js
 
@@ -110,7 +110,7 @@ module.exports = {
 
 Create a production-specific config file:
 
-```atom webpack.prod.js```
+- ```atom webpack.prod.js```
 
 ...and configure it to clean out the 'dist' folder and minify your code on every build:
 
@@ -134,9 +134,17 @@ module.exports = merge(common, {
 
 Create a dev-specific webpack config file for running a dev server, with dev tools:
 
-```atom webpack.dev.js```
+- ```atom webpack.dev.js```
 
 ```js
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
+module.exports = merge(common, {
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  }
+});
 
 ```
 
@@ -167,7 +175,7 @@ Install React and ReactDOM:
 
 Start writing React components:
 
-```atom src/components/App.js```
+- ```atom src/components/App.js```
 
 ```js
 // src/components/App.js
@@ -188,7 +196,7 @@ export default App;
 
 Finally, tell your index file to render your component to your index file:
 
-```atom src/index.js```
+- ```atom src/index.js```
 
 ```js
 //index.js
@@ -204,7 +212,7 @@ ReactDOM.render(
 
 Create a ```Procfile``` for heroku:
 
-```atom Procfile```
+- ```atom Procfile```
 
 and tell it what to run after in order to launch your app:
 
@@ -214,7 +222,7 @@ web: node index.js
 
 Gitigore your ```node_modules```:
 
-```atom .gitignore```
+- ```atom .gitignore```
 
 ```js
 node_modules/
