@@ -164,7 +164,7 @@ In ```package.json```, create a "build" script that calls webpack, and a "start"
 ```js
 "scripts": {
   "start": "node index.js",
-  "dev": "webpack-dev-server --config webpack.common.js",
+  "dev": "webpack-dev-server --config webpack.dev.js",
   "build": "webpack --config webpack.prod.js",
   "postinstall": "webpack --config webpack.prod.js",
 }
